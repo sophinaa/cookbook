@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weeknight Cookbook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero">
+        <p class="eyebrow">Kitchen Notes</p>
+        <h1>Weeknight Cookbook</h1>
+        <p class="hero-copy">
+          A compact collection of reliable dinners, one-pan meals, and quick
+          desserts for the middle of the week.
+        </p>
+        <div class="hero-meta">
+          <span>6 starter recipes</span>
+          <span>Ready in 15-45 minutes</span>
+        </div>
+      </section>
+
+      <section class="controls" aria-label="Recipe filters">
+        <div class="filter-group">
+          <button class="filter-chip active" data-filter="all">All</button>
+          <button class="filter-chip" data-filter="dinner">Dinner</button>
+          <button class="filter-chip" data-filter="lunch">Lunch</button>
+          <button class="filter-chip" data-filter="dessert">Dessert</button>
+          <button class="filter-chip" data-filter="vegetarian">
+            Vegetarian
+          </button>
+        </div>
+        <label class="search">
+          <span class="sr-only">Search recipes</span>
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Search recipes or ingredients"
+          />
+        </label>
+      </section>
+
+      <section class="layout">
+        <div id="recipeGrid" class="recipe-grid" aria-live="polite"></div>
+
+        <aside class="sidebar">
+          <article class="panel">
+            <h2>Pantry Staples</h2>
+            <ul>
+              <li>Olive oil</li>
+              <li>Garlic</li>
+              <li>Lemons</li>
+              <li>Chili flakes</li>
+              <li>Rice and pasta</li>
+            </ul>
+          </article>
+
+          <article class="panel accent">
+            <h2>Cooking Rhythm</h2>
+            <p>
+              Pick one fast meal, one longer simmer, and one dessert. That is
+              enough variety for a week.
+            </p>
+          </article>
+        </aside>
+      </section>
+    </main>
+
+    <template id="recipeCardTemplate">
+      <article class="recipe-card">
+        <div class="recipe-card__top">
+          <p class="recipe-tag"></p>
+          <p class="recipe-time"></p>
+        </div>
+        <h2 class="recipe-title"></h2>
+        <p class="recipe-description"></p>
+        <div class="recipe-details">
+          <div>
+            <h3>Ingredients</h3>
+            <ul class="ingredient-list"></ul>
+          </div>
+          <div>
+            <h3>Steps</h3>
+            <ol class="step-list"></ol>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>
