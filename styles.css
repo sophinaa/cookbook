@@ -270,11 +270,68 @@ body.reader-expanded {
   box-shadow: 0 18px 30px rgba(86, 55, 36, 0.08);
 }
 
-.page-expand {
+.page-actions {
   position: absolute;
   top: 0.7rem;
   right: 0.7rem;
-  z-index: 2;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.page-menu-trigger {
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 1px solid rgba(121, 49, 34, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 251, 246, 0.72);
+  color: var(--accent-deep);
+  font: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.page-menu {
+  position: absolute;
+  top: 2.5rem;
+  right: 2.7rem;
+  display: grid;
+  min-width: 7rem;
+  padding: 0.35rem;
+  border: 1px solid rgba(121, 49, 34, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 251, 246, 0.96);
+  box-shadow: 0 12px 24px rgba(86, 55, 36, 0.12);
+}
+
+.page-menu[hidden] {
+  display: none !important;
+}
+
+.page-menu__item {
+  border: 0;
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.page-menu__item--danger {
+  color: #9a3027;
+}
+
+.page-menu__item:hover,
+.page-menu__item:focus-visible {
+  background: rgba(164, 72, 53, 0.08);
+}
+
+.page-expand {
   width: 2.2rem;
   height: 2.2rem;
   border: 1px solid rgba(121, 49, 34, 0.12);
@@ -347,13 +404,40 @@ body.reader-expanded {
   align-self: stretch;
 }
 
-.recipe-details h3 {
-  margin-top: 0;
-  margin-bottom: 0.7rem;
+.recipe-section {
+  border: 1px solid rgba(121, 49, 34, 0.1);
+  border-radius: 14px;
+  padding: 0.75rem 0.85rem 0.85rem;
+  background: rgba(255, 251, 246, 0.34);
+}
+
+.recipe-section__summary {
+  cursor: pointer;
+  list-style: none;
   font-size: 0.88rem;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
+}
+
+.recipe-section__summary::-webkit-details-marker {
+  display: none;
+}
+
+.recipe-section__summary::after {
+  content: "+";
+  float: right;
+  font-size: 1rem;
+}
+
+.recipe-section[open] .recipe-section__summary::after {
+  content: "-";
+}
+
+.recipe-section .ingredient-list,
+.recipe-section .step-list {
+  margin-top: 0.75rem;
 }
 
 .ingredient-list,

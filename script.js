@@ -1,4 +1,6 @@
-const recipes = [
+const STORAGE_KEY = "cookbook-recipes";
+
+const defaultRecipes = [
   {
     title: "Lemon Butter Pasta",
     category: "dinner",
@@ -130,12 +132,38 @@ const addRecipeButton = document.getElementById("addRecipeButton");
 const formOverlay = document.getElementById("formOverlay");
 const closeFormOverlayButton = document.getElementById("closeFormOverlay");
 const addRecipeForm = document.getElementById("addRecipeForm");
+const recipeFormTitle = document.getElementById("recipeFormTitle");
+const recipeFormSubmit = document.getElementById("recipeFormSubmit");
 
 let activeFilter = "all";
 let currentPage = 0;
 let lastDirection = "next";
 let isExpanded = false;
 let expandedRecipe = null;
+let editingRecipeTitle = null;
+let recipes = loadRecipes();
+
+function loadRecipes() {
+  try {
+    const storedRecipes = window.localStorage.getItem(STORAGE_KEY);
+    if (!storedRecipes) {
+      return structuredClone(defaultRecipes);
+    }
+
+    const parsedRecipes = JSON.parse(storedRecipes);
+    if (!Array.isArray(parsedRecipes)) {
+      return structuredClone(defaultRecipes);
+    }
+
+    return parsedRecipes;
+  } catch {
+    return structuredClone(defaultRecipes);
+  }
+}
+
+function saveRecipes() {
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes));
+}
 
 function syncExpandButton() {
   expandBookButton.textContent = isExpanded ? "⤡" : "⤢";
@@ -219,14 +247,40 @@ function renderRecipes() {
 
       return `
         <article class="recipe-page">
-          <button
-            class="page-expand"
-            type="button"
-            data-expand-recipe="${recipe.title}"
-            aria-label="Expand ${recipe.title}"
-          >
-            ⤢
-          </button>
+          <div class="page-actions">
+            <button
+              class="page-menu-trigger"
+              type="button"
+              data-menu-trigger="${recipe.title}"
+              aria-label="Recipe actions for ${recipe.title}"
+            >
+              &#8942;
+            </button>
+            <div class="page-menu" data-menu="${recipe.title}" hidden>
+              <button
+                class="page-menu__item"
+                type="button"
+                data-edit-recipe="${recipe.title}"
+              >
+                Edit
+              </button>
+              <button
+                class="page-menu__item page-menu__item--danger"
+                type="button"
+                data-delete-recipe="${recipe.title}"
+              >
+                Delete
+              </button>
+            </div>
+            <button
+              class="page-expand"
+              type="button"
+              data-expand-recipe="${recipe.title}"
+              aria-label="Expand ${recipe.title}"
+            >
+              ⤢
+            </button>
+          </div>
           <div class="recipe-page__top">
             <p class="recipe-tag">${recipe.category}</p>
             <p class="recipe-time">${recipe.time}</p>
@@ -234,14 +288,14 @@ function renderRecipes() {
           <h2 class="recipe-title">${recipe.title}</h2>
           <p class="recipe-description">${recipe.description}</p>
           <div class="recipe-details">
-            <div>
-              <h3>Ingredients</h3>
+            <details class="recipe-section" open>
+              <summary class="recipe-section__summary">Ingredients</summary>
               <ul class="ingredient-list">${ingredientItems}</ul>
-            </div>
-            <div>
-              <h3>Steps</h3>
+            </details>
+            <details class="recipe-section" open>
+              <summary class="recipe-section__summary">Steps</summary>
               <ol class="step-list">${stepItems}</ol>
-            </div>
+            </details>
           </div>
         </article>
       `;
@@ -270,14 +324,14 @@ function createExpandedPageMarkup(recipe) {
       <h2 class="recipe-title">${recipe.title}</h2>
       <p class="recipe-description">${recipe.description}</p>
       <div class="recipe-details">
-        <div>
-          <h3>Ingredients</h3>
+        <details class="recipe-section" open>
+          <summary class="recipe-section__summary">Ingredients</summary>
           <ul class="ingredient-list">${ingredientItems}</ul>
-        </div>
-        <div>
-          <h3>Steps</h3>
+        </details>
+        <details class="recipe-section" open>
+          <summary class="recipe-section__summary">Steps</summary>
           <ol class="step-list">${stepItems}</ol>
-        </div>
+        </details>
       </div>
     </article>
   `;
@@ -305,16 +359,57 @@ function closeExpandedRecipe() {
 }
 
 function openRecipeForm() {
+  editingRecipeTitle = null;
+  recipeFormTitle.textContent = "Add Recipe";
+  recipeFormSubmit.textContent = "Save Recipe";
+  addRecipeForm.reset();
   formOverlay.hidden = false;
   document.body.classList.add("reader-expanded");
 }
 
 function closeRecipeForm() {
   formOverlay.hidden = true;
+  editingRecipeTitle = null;
+  recipeFormTitle.textContent = "Add Recipe";
+  recipeFormSubmit.textContent = "Save Recipe";
   addRecipeForm.reset();
   if (!isExpanded && !expandedRecipe) {
     document.body.classList.remove("reader-expanded");
   }
+}
+
+function openEditRecipeForm(recipeTitle) {
+  const recipe = recipes.find((item) => item.title === recipeTitle);
+  if (!recipe) {
+    return;
+  }
+
+  editingRecipeTitle = recipe.title;
+  recipeFormTitle.textContent = "Edit Recipe";
+  recipeFormSubmit.textContent = "Update Recipe";
+  addRecipeForm.elements.title.value = recipe.title;
+  addRecipeForm.elements.category.value = recipe.category;
+  addRecipeForm.elements.time.value = recipe.time;
+  addRecipeForm.elements.description.value = recipe.description;
+  addRecipeForm.elements.ingredients.value = recipe.ingredients.join("\n");
+  addRecipeForm.elements.steps.value = recipe.steps.join("\n");
+  formOverlay.hidden = false;
+  document.body.classList.add("reader-expanded");
+}
+
+function deleteRecipe(recipeTitle) {
+  const recipeIndex = recipes.findIndex((item) => item.title === recipeTitle);
+  if (recipeIndex === -1) {
+    return;
+  }
+
+  recipes.splice(recipeIndex, 1);
+  saveRecipes();
+  if (expandedRecipe?.title === recipeTitle) {
+    closeExpandedRecipe();
+  }
+  updateFilterLabels();
+  renderRecipes();
 }
 
 filterButtons.forEach((button) => {
@@ -357,8 +452,38 @@ nextPageButton.addEventListener("click", () => {
 });
 
 recipeBook.addEventListener("click", (event) => {
+  const menuTrigger = event.target.closest("[data-menu-trigger]");
+  if (menuTrigger) {
+    const menu = recipeBook.querySelector(
+      `[data-menu="${CSS.escape(menuTrigger.dataset.menuTrigger)}"]`
+    );
+    if (menu) {
+      const isHidden = menu.hidden;
+      recipeBook
+        .querySelectorAll(".page-menu")
+        .forEach((item) => (item.hidden = true));
+      menu.hidden = !isHidden;
+    }
+    return;
+  }
+
+  const editTrigger = event.target.closest("[data-edit-recipe]");
+  if (editTrigger) {
+    recipeBook.querySelectorAll(".page-menu").forEach((item) => (item.hidden = true));
+    openEditRecipeForm(editTrigger.dataset.editRecipe);
+    return;
+  }
+
+  const deleteTrigger = event.target.closest("[data-delete-recipe]");
+  if (deleteTrigger) {
+    recipeBook.querySelectorAll(".page-menu").forEach((item) => (item.hidden = true));
+    deleteRecipe(deleteTrigger.dataset.deleteRecipe);
+    return;
+  }
+
   const trigger = event.target.closest("[data-expand-recipe]");
   if (!trigger) {
+    recipeBook.querySelectorAll(".page-menu").forEach((item) => (item.hidden = true));
     return;
   }
 
@@ -405,15 +530,25 @@ addRecipeForm.addEventListener("submit", (event) => {
     .map((item) => item.trim())
     .filter(Boolean);
 
-  recipes.unshift({
+  const recipePayload = {
     title: formData.get("title").trim(),
     category: formData.get("category"),
     time: formData.get("time").trim(),
     description: formData.get("description").trim(),
     ingredients,
     steps,
-  });
+  };
 
+  if (editingRecipeTitle) {
+    const recipeIndex = recipes.findIndex((item) => item.title === editingRecipeTitle);
+    if (recipeIndex !== -1) {
+      recipes[recipeIndex] = recipePayload;
+    }
+  } else {
+    recipes.unshift(recipePayload);
+  }
+
+  saveRecipes();
   activeFilter = "all";
   currentPage = 0;
   lastDirection = "next";
@@ -442,6 +577,12 @@ document.addEventListener("keydown", (event) => {
       document.body.classList.remove("reader-expanded");
     }
     syncExpandButton();
+  }
+});
+
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".page-actions")) {
+    recipeBook.querySelectorAll(".page-menu").forEach((item) => (item.hidden = true));
   }
 });
 

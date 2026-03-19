@@ -104,7 +104,7 @@
           ×
         </button>
         <form id="addRecipeForm" class="recipe-form">
-          <h2>Add Recipe</h2>
+          <h2 id="recipeFormTitle">Add Recipe</h2>
           <label>
             <span>Title</span>
             <input id="recipeTitle" name="title" type="text" required />
@@ -145,7 +145,9 @@
               required
             ></textarea>
           </label>
-          <button class="add-recipe-button" type="submit">Save Recipe</button>
+          <button id="recipeFormSubmit" class="add-recipe-button" type="submit">
+            Save Recipe
+          </button>
         </form>
       </div>
     </div>
