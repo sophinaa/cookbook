@@ -121,6 +121,13 @@ body.reader-expanded {
   flex-wrap: wrap;
 }
 
+.controls-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
 .filter-chip {
   border: 1px solid rgba(121, 49, 34, 0.12);
   border-radius: 999px 999px 999px 14px;
@@ -152,6 +159,17 @@ body.reader-expanded {
   background: rgba(255, 253, 248, 0.96);
   font: inherit;
   color: inherit;
+}
+
+.add-recipe-button {
+  border: 1px solid rgba(121, 49, 34, 0.12);
+  border-radius: 999px;
+  padding: 0.95rem 1.2rem;
+  background: var(--accent);
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .layout {
@@ -422,6 +440,10 @@ body.reader-expanded {
   -webkit-backdrop-filter: blur(18px) saturate(135%);
 }
 
+.page-overlay[hidden] {
+  display: none !important;
+}
+
 .page-overlay__glass {
   position: relative;
   width: min(100%, 1180px);
@@ -437,16 +459,51 @@ body.reader-expanded {
     inset 0 1px 0 rgba(255, 255, 255, 0.38);
 }
 
+.page-overlay__glass--form {
+  width: min(100%, 720px);
+}
+
 .expand-button--overlay {
-  position: sticky;
-  top: 0;
-  margin-left: auto;
-  display: block;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 3;
 }
 
 .overlay-page {
   display: grid;
   place-items: center;
+}
+
+.recipe-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.recipe-form h2 {
+  margin: 0;
+  font-family: "Fraunces", serif;
+  color: var(--accent-deep);
+}
+
+.recipe-form label {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.recipe-form input,
+.recipe-form select,
+.recipe-form textarea {
+  width: 100%;
+  border: 1px solid rgba(121, 49, 34, 0.14);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  background: rgba(255, 253, 248, 0.92);
+  color: var(--ink);
+  font: inherit;
+  resize: vertical;
 }
 
 .recipe-page--expanded {
@@ -510,6 +567,10 @@ body.reader-expanded {
   .controls {
     align-items: stretch;
     padding: 1rem;
+  }
+
+  .controls-actions {
+    width: 100%;
   }
 
   .search input {

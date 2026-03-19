@@ -126,6 +126,10 @@ const filterButtons = document.querySelectorAll(".filter-chip");
 const pageOverlay = document.getElementById("pageOverlay");
 const overlayPage = document.getElementById("overlayPage");
 const closeOverlayButton = document.getElementById("closeOverlay");
+const addRecipeButton = document.getElementById("addRecipeButton");
+const formOverlay = document.getElementById("formOverlay");
+const closeFormOverlayButton = document.getElementById("closeFormOverlay");
+const addRecipeForm = document.getElementById("addRecipeForm");
 
 let activeFilter = "all";
 let currentPage = 0;
@@ -300,6 +304,19 @@ function closeExpandedRecipe() {
   }
 }
 
+function openRecipeForm() {
+  formOverlay.hidden = false;
+  document.body.classList.add("reader-expanded");
+}
+
+function closeRecipeForm() {
+  formOverlay.hidden = true;
+  addRecipeForm.reset();
+  if (!isExpanded && !expandedRecipe) {
+    document.body.classList.remove("reader-expanded");
+  }
+}
+
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     activeFilter = button.dataset.filter;
@@ -363,9 +380,58 @@ pageOverlay.addEventListener("click", (event) => {
   }
 });
 
+addRecipeButton.addEventListener("click", openRecipeForm);
+
+closeFormOverlayButton.addEventListener("click", closeRecipeForm);
+
+formOverlay.addEventListener("click", (event) => {
+  if (event.target === formOverlay) {
+    closeRecipeForm();
+  }
+});
+
+addRecipeForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(addRecipeForm);
+  const ingredients = formData
+    .get("ingredients")
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const steps = formData
+    .get("steps")
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  recipes.unshift({
+    title: formData.get("title").trim(),
+    category: formData.get("category"),
+    time: formData.get("time").trim(),
+    description: formData.get("description").trim(),
+    ingredients,
+    steps,
+  });
+
+  activeFilter = "all";
+  currentPage = 0;
+  lastDirection = "next";
+  filterButtons.forEach((chip) => chip.classList.remove("active"));
+  document.querySelector('[data-filter="all"]').classList.add("active");
+  updateFilterLabels();
+  renderRecipes();
+  closeRecipeForm();
+});
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && expandedRecipe) {
     closeExpandedRecipe();
+    return;
+  }
+
+  if (event.key === "Escape" && !formOverlay.hidden) {
+    closeRecipeForm();
     return;
   }
 
