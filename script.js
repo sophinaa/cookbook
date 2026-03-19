@@ -115,16 +115,36 @@ const recipes = [
   },
 ];
 
-const recipeGrid = document.getElementById("recipeGrid");
+const recipeBook = document.getElementById("recipeBook");
+const bookReader = document.getElementById("bookReader");
+const expandBookButton = document.getElementById("expandBook");
+const prevPageButton = document.getElementById("prevPage");
+const nextPageButton = document.getElementById("nextPage");
+const pageIndicator = document.getElementById("pageIndicator");
 const searchInput = document.getElementById("searchInput");
 const filterButtons = document.querySelectorAll(".filter-chip");
-const template = document.getElementById("recipeCardTemplate");
+const pageOverlay = document.getElementById("pageOverlay");
+const overlayPage = document.getElementById("overlayPage");
+const closeOverlayButton = document.getElementById("closeOverlay");
 
 let activeFilter = "all";
+let currentPage = 0;
+let lastDirection = "next";
+let isExpanded = false;
+let expandedRecipe = null;
 
-function renderRecipes() {
+function syncExpandButton() {
+  expandBookButton.textContent = isExpanded ? "⤡" : "⤢";
+  expandBookButton.setAttribute(
+    "aria-label",
+    isExpanded ? "Collapse book view" : "Expand book view"
+  );
+}
+
+function getVisibleRecipes() {
   const term = searchInput.value.trim().toLowerCase();
-  const visibleRecipes = recipes.filter((recipe) => {
+
+  return recipes.filter((recipe) => {
     const matchesFilter =
       activeFilter === "all" || recipe.category === activeFilter;
     const haystack = [
@@ -138,47 +158,153 @@ function renderRecipes() {
 
     return matchesFilter && haystack.includes(term);
   });
+}
 
-  recipeGrid.innerHTML = "";
+function updateFilterLabels() {
+  filterButtons.forEach((button) => {
+    const filter = button.dataset.filter;
+    const total =
+      filter === "all"
+        ? recipes.length
+        : recipes.filter((recipe) => recipe.category === filter).length;
+
+    button.textContent = `${filter.charAt(0).toUpperCase()}${filter.slice(1)} (${total})`;
+  });
+}
+
+function renderRecipes() {
+  const visibleRecipes = getVisibleRecipes();
+  const pageSize = 3;
+
+  if (currentPage >= visibleRecipes.length) {
+    currentPage = Math.max(visibleRecipes.length - pageSize, 0);
+  }
+
+  currentPage = Math.max(Math.floor(currentPage / pageSize) * pageSize, 0);
+
+  if (currentPage < 0) {
+    currentPage = 0;
+  }
+
+  recipeBook.classList.remove("flip-next", "flip-prev");
+  void recipeBook.offsetWidth;
+  recipeBook.classList.add(
+    lastDirection === "prev" ? "flip-prev" : "flip-next"
+  );
 
   if (visibleRecipes.length === 0) {
     const emptyState = document.createElement("div");
     emptyState.className = "empty-state";
     emptyState.textContent = "No recipes matched that search.";
-    recipeGrid.appendChild(emptyState);
+    recipeBook.innerHTML = "";
+    recipeBook.appendChild(emptyState);
+    pageIndicator.textContent = "0 / 0";
+    prevPageButton.disabled = true;
+    nextPageButton.disabled = true;
     return;
   }
 
-  visibleRecipes.forEach((recipe) => {
-    const fragment = template.content.cloneNode(true);
+  const pageRecipes = visibleRecipes.slice(currentPage, currentPage + pageSize);
 
-    fragment.querySelector(".recipe-tag").textContent = recipe.category;
-    fragment.querySelector(".recipe-time").textContent = recipe.time;
-    fragment.querySelector(".recipe-title").textContent = recipe.title;
-    fragment.querySelector(".recipe-description").textContent =
-      recipe.description;
+  recipeBook.innerHTML = pageRecipes
+    .map((recipe) => {
+      const ingredientItems = recipe.ingredients
+        .map((ingredient) => `<li>${ingredient}</li>`)
+        .join("");
+      const stepItems = recipe.steps.map((step) => `<li>${step}</li>`).join("");
 
-    const ingredientList = fragment.querySelector(".ingredient-list");
-    recipe.ingredients.forEach((ingredient) => {
-      const li = document.createElement("li");
-      li.textContent = ingredient;
-      ingredientList.appendChild(li);
-    });
+      return `
+        <article class="recipe-page">
+          <button
+            class="page-expand"
+            type="button"
+            data-expand-recipe="${recipe.title}"
+            aria-label="Expand ${recipe.title}"
+          >
+            ⤢
+          </button>
+          <div class="recipe-page__top">
+            <p class="recipe-tag">${recipe.category}</p>
+            <p class="recipe-time">${recipe.time}</p>
+          </div>
+          <h2 class="recipe-title">${recipe.title}</h2>
+          <p class="recipe-description">${recipe.description}</p>
+          <div class="recipe-details">
+            <div>
+              <h3>Ingredients</h3>
+              <ul class="ingredient-list">${ingredientItems}</ul>
+            </div>
+            <div>
+              <h3>Steps</h3>
+              <ol class="step-list">${stepItems}</ol>
+            </div>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
 
-    const stepList = fragment.querySelector(".step-list");
-    recipe.steps.forEach((step) => {
-      const li = document.createElement("li");
-      li.textContent = step;
-      stepList.appendChild(li);
-    });
+  const currentSpread = Math.floor(currentPage / pageSize) + 1;
+  const totalSpreads = Math.ceil(visibleRecipes.length / pageSize);
+  pageIndicator.textContent = `${currentSpread} / ${totalSpreads}`;
+  prevPageButton.disabled = currentPage === 0;
+  nextPageButton.disabled = currentPage + pageSize >= visibleRecipes.length;
+}
 
-    recipeGrid.appendChild(fragment);
-  });
+function createExpandedPageMarkup(recipe) {
+  const ingredientItems = recipe.ingredients
+    .map((ingredient) => `<li>${ingredient}</li>`)
+    .join("");
+  const stepItems = recipe.steps.map((step) => `<li>${step}</li>`).join("");
+
+  return `
+    <article class="recipe-page recipe-page--expanded">
+      <div class="recipe-page__top">
+        <p class="recipe-tag">${recipe.category}</p>
+        <p class="recipe-time">${recipe.time}</p>
+      </div>
+      <h2 class="recipe-title">${recipe.title}</h2>
+      <p class="recipe-description">${recipe.description}</p>
+      <div class="recipe-details">
+        <div>
+          <h3>Ingredients</h3>
+          <ul class="ingredient-list">${ingredientItems}</ul>
+        </div>
+        <div>
+          <h3>Steps</h3>
+          <ol class="step-list">${stepItems}</ol>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function openExpandedRecipe(recipeTitle) {
+  const recipe = recipes.find((item) => item.title === recipeTitle);
+  if (!recipe) {
+    return;
+  }
+
+  expandedRecipe = recipe;
+  overlayPage.innerHTML = createExpandedPageMarkup(recipe);
+  pageOverlay.hidden = false;
+  document.body.classList.add("reader-expanded");
+}
+
+function closeExpandedRecipe() {
+  expandedRecipe = null;
+  pageOverlay.hidden = true;
+  overlayPage.innerHTML = "";
+  if (!isExpanded) {
+    document.body.classList.remove("reader-expanded");
+  }
 }
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     activeFilter = button.dataset.filter;
+    currentPage = 0;
+    lastDirection = "next";
 
     filterButtons.forEach((chip) => chip.classList.remove("active"));
     button.classList.add("active");
@@ -186,6 +312,73 @@ filterButtons.forEach((button) => {
   });
 });
 
-searchInput.addEventListener("input", renderRecipes);
+searchInput.addEventListener("input", () => {
+  currentPage = 0;
+  lastDirection = "next";
+  renderRecipes();
+});
 
+prevPageButton.addEventListener("click", () => {
+  if (currentPage === 0) {
+    return;
+  }
+
+  currentPage -= 3;
+  lastDirection = "prev";
+  renderRecipes();
+});
+
+nextPageButton.addEventListener("click", () => {
+  const visibleRecipes = getVisibleRecipes();
+  if (currentPage + 3 >= visibleRecipes.length) {
+    return;
+  }
+
+  currentPage += 3;
+  lastDirection = "next";
+  renderRecipes();
+});
+
+recipeBook.addEventListener("click", (event) => {
+  const trigger = event.target.closest("[data-expand-recipe]");
+  if (!trigger) {
+    return;
+  }
+
+  openExpandedRecipe(trigger.dataset.expandRecipe);
+});
+
+expandBookButton.addEventListener("click", () => {
+  isExpanded = !isExpanded;
+  bookReader.classList.toggle("is-expanded", isExpanded);
+  document.body.classList.toggle("reader-expanded", isExpanded);
+  syncExpandButton();
+});
+
+closeOverlayButton.addEventListener("click", closeExpandedRecipe);
+
+pageOverlay.addEventListener("click", (event) => {
+  if (event.target === pageOverlay) {
+    closeExpandedRecipe();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && expandedRecipe) {
+    closeExpandedRecipe();
+    return;
+  }
+
+  if (event.key === "Escape" && isExpanded) {
+    isExpanded = false;
+    bookReader.classList.remove("is-expanded");
+    if (!expandedRecipe) {
+      document.body.classList.remove("reader-expanded");
+    }
+    syncExpandButton();
+  }
+});
+
+syncExpandButton();
+updateFilterLabels();
 renderRecipes();

@@ -16,15 +16,11 @@
     <main class="page-shell">
       <section class="hero">
         <p class="eyebrow">Kitchen Notes</p>
-        <h1>Weeknight Cookbook</h1>
+        <h1>Cookbook</h1>
         <p class="hero-copy">
           A compact collection of reliable dinners, one-pan meals, and quick
           desserts for the middle of the week.
         </p>
-        <div class="hero-meta">
-          <span>6 starter recipes</span>
-          <span>Ready in 15-45 minutes</span>
-        </div>
       </section>
 
       <section class="controls" aria-label="Recipe filters">
@@ -33,45 +29,64 @@
           <button class="filter-chip" data-filter="dinner">Dinner</button>
           <button class="filter-chip" data-filter="lunch">Lunch</button>
           <button class="filter-chip" data-filter="dessert">Dessert</button>
-          <button class="filter-chip" data-filter="vegetarian">
-            Vegetarian
-          </button>
         </div>
         <label class="search">
           <span class="sr-only">Search recipes</span>
           <input
             id="searchInput"
             type="search"
-            placeholder="Search recipes or ingredients"
+            placeholder="Search recipes"
           />
         </label>
       </section>
 
       <section class="layout">
-        <div id="recipeGrid" class="recipe-grid" aria-live="polite"></div>
+        <div id="bookReader" class="book-reader">
+          <button
+            id="expandBook"
+            class="expand-button"
+            type="button"
+            aria-label="Expand book view"
+          >
+            ⤢
+          </button>
+          <button
+            id="prevPage"
+            class="page-button page-button--side"
+            type="button"
+            aria-label="Go backward"
+          >
+            &#8249;
+          </button>
+          <div id="recipeBook" class="recipe-book" aria-live="polite"></div>
+          <button
+            id="nextPage"
+            class="page-button page-button--side"
+            type="button"
+            aria-label="Go forward"
+          >
+            &#8250;
+          </button>
+          <div class="book-nav">
+            <p id="pageIndicator" class="page-indicator"></p>
+          </div>
+        </div>
       </section>
     </main>
 
-    <template id="recipeCardTemplate">
-      <article class="recipe-card">
-        <div class="recipe-card__top">
-          <p class="recipe-tag"></p>
-          <p class="recipe-time"></p>
-        </div>
-        <h2 class="recipe-title"></h2>
-        <p class="recipe-description"></p>
-        <div class="recipe-details">
-          <div>
-            <h3>Ingredients</h3>
-            <ul class="ingredient-list"></ul>
-          </div>
-          <div>
-            <h3>Steps</h3>
-            <ol class="step-list"></ol>
-          </div>
-        </div>
-      </article>
-    </template>
+    <div id="pageOverlay" class="page-overlay" hidden>
+      <div class="page-overlay__glass">
+        <button
+          id="closeOverlay"
+          class="expand-button expand-button--overlay"
+          type="button"
+          aria-label="Close expanded recipe"
+        >
+          ×
+        </button>
+        <div id="overlayPage" class="overlay-page"></div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
