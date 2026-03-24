@@ -46,7 +46,6 @@ body.reader-expanded {
 .hero {
   position: relative;
   overflow: hidden;
-  min-height: 300px;
   padding: 2.75rem;
   border: 1px solid rgba(121, 49, 34, 0.14);
   border-radius: 28px 28px 18px 18px;
@@ -87,7 +86,7 @@ body.reader-expanded {
 }
 
 .hero h1 {
-  margin: 0.35rem 0 0.75rem;
+  margin: 0.35rem 0 0;
   font-size: clamp(2.5rem, 7vw, 4.8rem);
   line-height: 0.95;
   color: var(--accent-deep);
@@ -173,11 +172,14 @@ body.reader-expanded {
 }
 
 .layout {
-  display: block;
+  display: grid;
+  place-items: center;
 }
 
 .book-reader {
   position: relative;
+  width: min(100%, 1120px);
+  margin: 0 auto;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
@@ -668,6 +670,7 @@ body.reader-expanded {
   }
 
   .book-reader {
+    width: 100%;
     grid-template-columns: 1fr;
   }
 
