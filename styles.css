@@ -10,6 +10,8 @@
   --accent-deep: #793122;
   --line: rgba(59, 36, 28, 0.14);
   --shadow: 0 30px 70px rgba(86, 55, 36, 0.14);
+  --reader-side-control: 3.2rem;
+  --reader-side-gap: 1.4rem;
 }
 
 * {
@@ -33,13 +35,13 @@ body.reader-expanded {
 
 .page-shell {
   position: relative;
-  width: min(1180px, calc(100% - 2rem));
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: 2.5rem 2rem 3rem;
-  border-radius: 34px;
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255, 250, 241, 0.98), rgba(244, 230, 206, 0.92));
-  border: 1px solid rgba(121, 49, 34, 0.12);
+  border: 0;
   box-shadow: var(--shadow);
 }
 
@@ -173,13 +175,13 @@ body.reader-expanded {
 
 .layout {
   display: grid;
-  place-items: center;
+  place-items: stretch;
 }
 
 .book-reader {
   position: relative;
-  width: min(100%, 1120px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
@@ -207,9 +209,9 @@ body.reader-expanded {
 
 .recipe-book {
   position: relative;
-  width: min(100%, 1040px);
+  width: 100%;
   min-height: min(980px, 84vh);
-  margin: 0 auto;
+  margin: 0;
   padding: 1.5rem;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -417,18 +419,18 @@ body.reader-expanded {
   font-size: 0.92rem;
 }
 
-.recipe-preview-more,
-.recipe-preview-note {
-  margin: 0.75rem 0 0;
+.recipe-preview-banner {
+  margin: 0 0 1rem calc(var(--reader-side-control) + var(--reader-side-gap));
   color: var(--accent);
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  text-align: left;
 }
 
-.recipe-preview-note {
-  margin-top: 1rem;
+.recipe-preview-banner[hidden] {
+  display: none !important;
 }
 
 .empty-state {
@@ -600,9 +602,9 @@ body.reader-expanded {
 
 @media (max-width: 640px) {
   .page-shell {
-    width: min(100% - 1rem, 100%);
-    padding: 1rem 1rem 1.5rem;
-    border-radius: 22px;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0;
   }
 
   .hero {
@@ -646,6 +648,10 @@ body.reader-expanded {
     min-width: 0;
     width: fit-content;
     justify-self: center;
+  }
+
+  .recipe-preview-banner {
+    margin-left: 0;
   }
 
   .recipe-page {

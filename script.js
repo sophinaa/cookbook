@@ -199,6 +199,7 @@ const recipeBook = document.getElementById("recipeBook");
 const prevPageButton = document.getElementById("prevPage");
 const nextPageButton = document.getElementById("nextPage");
 const pageIndicator = document.getElementById("pageIndicator");
+const recipePreviewBanner = document.getElementById("recipePreviewBanner");
 const searchInput = document.getElementById("searchInput");
 const filterButtons = document.querySelectorAll(".filter-chip");
 const pageOverlay = document.getElementById("pageOverlay");
@@ -411,12 +412,6 @@ function renderRecipeCard(recipe) {
     .map((ingredient) => `<li>${ingredient}</li>`)
     .join("");
   const stepItems = previewSteps.map((step) => `<li>${step}</li>`).join("");
-  const hasMoreIngredients = recipe.ingredients.length > previewIngredients.length;
-  const hasMoreSteps = recipe.steps.length > previewSteps.length;
-  const previewHint =
-    hasMoreIngredients || hasMoreSteps
-      ? `<p class="recipe-preview-note">Press expand to see the full recipe.</p>`
-      : "";
 
   return `
     <article class="recipe-page">
@@ -464,15 +459,12 @@ function renderRecipeCard(recipe) {
         <details class="recipe-section" open>
           <summary class="recipe-section__summary">Ingredients</summary>
           <ul class="ingredient-list">${ingredientItems}</ul>
-          ${hasMoreIngredients ? '<p class="recipe-preview-more">More ingredients in expanded view.</p>' : ""}
         </details>
         <details class="recipe-section" open>
           <summary class="recipe-section__summary">Steps</summary>
           <ol class="step-list">${stepItems}</ol>
-          ${hasMoreSteps ? '<p class="recipe-preview-more">More steps in expanded view.</p>' : ""}
         </details>
       </div>
-      ${previewHint}
     </article>
   `;
 }
@@ -480,6 +472,11 @@ function renderRecipeCard(recipe) {
 function renderRecipes() {
   const visibleRecipes = getVisibleRecipes();
   const pageSize = 3;
+  const shouldShowPreviewBanner = visibleRecipes.some(
+    (recipe) => recipe.ingredients.length > 4 || recipe.steps.length > 3
+  );
+
+  recipePreviewBanner.hidden = !shouldShowPreviewBanner;
 
   if (currentPage >= visibleRecipes.length) {
     currentPage = Math.max(visibleRecipes.length - pageSize, 0);
