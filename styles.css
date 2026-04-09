@@ -186,34 +186,6 @@ body.reader-expanded {
   gap: 1.4rem;
 }
 
-.book-reader.is-expanded {
-  position: fixed;
-  inset: 1.2rem;
-  z-index: 50;
-  padding: 2.75rem 1.5rem 1.5rem;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  border: 1px solid rgba(255, 255, 255, 0.26);
-  border-radius: 36px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.08));
-  box-shadow:
-    0 28px 80px rgba(72, 41, 27, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.38);
-  backdrop-filter: blur(24px) saturate(135%);
-  -webkit-backdrop-filter: blur(24px) saturate(135%);
-}
-
-.book-reader.is-expanded::before {
-  content: "";
-  position: absolute;
-  inset: -24px;
-  z-index: -1;
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.34), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(164, 72, 53, 0.16), transparent 30%);
-  filter: blur(18px);
-}
-
 .expand-button {
   position: absolute;
   top: 0.8rem;
@@ -248,12 +220,6 @@ body.reader-expanded {
   border: 1px solid rgba(121, 49, 34, 0.12);
   box-shadow: var(--shadow);
   perspective: 1200px;
-}
-
-.book-reader.is-expanded .recipe-book {
-  width: min(100%, 1400px);
-  min-height: calc(100vh - 7rem);
-  background: rgba(255, 249, 238, 0.44);
 }
 
 .recipe-page {
@@ -451,6 +417,20 @@ body.reader-expanded {
   font-size: 0.92rem;
 }
 
+.recipe-preview-more,
+.recipe-preview-note {
+  margin: 0.75rem 0 0;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.recipe-preview-note {
+  margin-top: 1rem;
+}
+
 .empty-state {
   min-height: 100%;
   display: grid;
@@ -470,10 +450,6 @@ body.reader-expanded {
   min-height: 1.5rem;
 }
 
-.book-reader.is-expanded .book-nav {
-  padding-top: 0.4rem;
-}
-
 .page-button--side {
   min-width: 0;
   width: 3.2rem;
@@ -481,14 +457,6 @@ body.reader-expanded {
   padding: 0;
   font-size: 1.4rem;
   line-height: 1;
-}
-
-.book-reader.is-expanded .page-button--side {
-  width: 3.5rem;
-  height: 3.5rem;
-  background: rgba(255, 251, 246, 0.78);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 .page-button {
@@ -671,12 +639,6 @@ body.reader-expanded {
 
   .book-reader {
     width: 100%;
-    grid-template-columns: 1fr;
-  }
-
-  .book-reader.is-expanded {
-    inset: 0.6rem;
-    padding: 3.2rem 0.8rem 1rem;
     grid-template-columns: 1fr;
   }
 

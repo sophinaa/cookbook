@@ -1,131 +1,201 @@
-const STORAGE_KEY = "cookbook-recipes";
-
+const STORAGE_KEY = "cookbook-recipes-v2";
 const defaultRecipes = [
   {
-    id: "lemon-butter-pasta",
-    title: "Lemon Butter Pasta",
-    category: "dinner",
-    time: "20 min",
-    description: "Silky pasta with lemon, black pepper, and a handful of herbs.",
-    ingredients: [
-      "200g spaghetti",
-      "2 tbsp butter",
-      "1 lemon",
-      "2 garlic cloves",
-      "Parsley",
-    ],
-    steps: [
-      "Cook pasta until just shy of al dente.",
-      "Melt butter with garlic and lemon zest in a skillet.",
-      "Toss pasta with the sauce and loosen with pasta water.",
-      "Finish with lemon juice, parsley, and black pepper.",
-    ],
-  },
-  {
-    id: "smoky-chickpea-bowls",
-    title: "Smoky Chickpea Bowls",
-    category: "vegetarian",
-    time: "25 min",
-    description: "Roasted chickpeas, quick yogurt sauce, and crisp cucumbers over rice.",
-    ingredients: [
-      "1 can chickpeas",
-      "1 tsp smoked paprika",
-      "Cooked rice",
-      "Greek yogurt",
-      "Cucumber",
-    ],
-    steps: [
-      "Roast chickpeas with oil, paprika, and salt.",
-      "Mix yogurt with lemon juice and garlic.",
-      "Slice cucumber and warm the rice.",
-      "Layer everything together and spoon over the sauce.",
-    ],
-  },
-  {
-    id: "chicken-sheet-pan-supper",
-    title: "Chicken Sheet Pan Supper",
-    category: "dinner",
-    time: "40 min",
-    description: "Chicken thighs roasted with carrots, onions, and mustard glaze.",
-    ingredients: [
-      "4 chicken thighs",
-      "3 carrots",
-      "1 red onion",
-      "1 tbsp Dijon mustard",
-      "Honey",
-    ],
-    steps: [
-      "Heat oven to 220C / 425F.",
-      "Spread vegetables on a tray and season well.",
-      "Coat chicken with mustard and honey, then place on top.",
-      "Roast until the chicken is deeply golden and cooked through.",
-    ],
-  },
-  {
-    id: "tomato-toasts",
-    title: "Tomato Toasts",
-    category: "lunch",
-    time: "15 min",
-    description: "Thick toast rubbed with garlic and piled with crushed tomatoes.",
-    ingredients: [
-      "Sourdough bread",
-      "2 ripe tomatoes",
-      "1 garlic clove",
-      "Olive oil",
-      "Basil",
-    ],
-    steps: [
-      "Toast the bread until crisp at the edges.",
-      "Rub each slice lightly with garlic.",
-      "Crush tomatoes with salt, oil, and torn basil.",
-      "Spoon over toast and finish with pepper.",
-    ],
-  },
-  {
-    id: "brown-sugar-peaches",
-    title: "Brown Sugar Peaches",
+    id: "matcha-bondies",
+    title: "Matcha Bondies",
     category: "dessert",
-    time: "18 min",
-    description: "Warm peaches with brown sugar and yogurt or ice cream.",
+    time: "200 degrees",
+    description: "Fudgy matcha blondies with white chocolate and a soft, buttery centre.",
     ingredients: [
-      "3 peaches",
-      "2 tbsp brown sugar",
-      "Pinch of cinnamon",
-      "Butter",
-      "Yogurt or ice cream",
+      "170g salted butter",
+      "130g white chocolate",
+      "16g matcha",
+      "180g sugar",
+      "70g brown sugar",
+      "3 eggs",
+      "6g vanilla extract",
+      "100g flour (self raising or normal)",
     ],
     steps: [
-      "Halve the peaches and place them cut-side up in a pan.",
-      "Dot with butter and sprinkle over brown sugar.",
-      "Bake until soft and syrupy.",
-      "Serve warm with yogurt or ice cream.",
+      "Preheat the oven to 200 degrees and line your baking tin so the bondies are easy to lift out later.",
+      "Add the salted butter and white chocolate to a heatproof bowl and melt them together until smooth and glossy.",
+      "Whisk the matcha into the melted butter and chocolate mixture so there are no lumps left.",
+      "In a separate bowl, add the eggs, sugar, brown sugar, and vanilla extract, then whisk until everything is fully combined.",
+      "Pour the matcha mixture into the egg and sugar mixture and stir gently until the batter is smooth and evenly coloured.",
+      "Add the flour and fold it through just until combined, being careful not to overmix the batter.",
+      "Pour the batter into your prepared tin and spread it out evenly so it bakes into a flat layer.",
+      "Bake at 200 degrees until the top is set and the edges have a light golden finish.",
+      "Let the matcha bondies cool in the tin before slicing so they hold their shape properly.",
+      "Slice up and enjoyyyyyy.",
     ],
   },
   {
-    id: "herby-tuna-salad",
-    title: "Herby Tuna Salad",
-    category: "lunch",
-    time: "10 min",
-    description: "A sharp, bright tuna salad for sandwiches, lettuce cups, or crackers.",
+    id: "cream-cheese-buns",
+    title: "Cream Cheese Buns",
+    category: "dessert",
+    time: "20-25 min",
+    description: "Soft filled buns with cream cheese, kalonji seeds, and a honey drizzle.",
     ingredients: [
-      "1 can tuna",
-      "2 tbsp mayonnaise",
-      "1 tbsp capers",
-      "Celery",
-      "Dill",
+      "1 cup warm milk",
+      "1 tbsp yeast",
+      "1 tbsp sugar",
+      "3 cups flour",
+      "1/3 cup melted butter",
+      "1/2 block cream cheese, cubed",
+      "1 egg for eggwash",
+      "Sprinkle of kalonji seeds",
+      "1/2 cup condensed milk to drizzle",
+      "2 tbsp honey to drizzle",
     ],
     steps: [
-      "Drain tuna and flake into a bowl.",
-      "Add mayonnaise, capers, diced celery, and dill.",
-      "Season with lemon juice and black pepper.",
-      "Serve chilled or straight away.",
+      "Begin by combining milk, yeast, and sugar in a bowl and whisk until well combined.",
+      "Add the flour 1 cup at a time, then add the melted butter.",
+      "Combine everything in the bowl, then knead the dough into the shape of a ball.",
+      "Place the dough in the bowl, drizzle a bit of oil on top, and cover.",
+      "Allow the dough to rise for 40 mins.",
+      "Punch the dough to release air, then roll it out.",
+      "Separate the dough into pieces and set one piece aside.",
+      "Continue rolling the remaining dough until fully stretched out.",
+      "Grab a cookie shaper in the shape of a circle, or use a container or jar with a small sphere shape, and cut out the dough pieces.",
+      "Set the circle pieces of dough on a plate and add a tsp of cream cheese to the center of each piece.",
+      "Roll the dough into a ball and place it on the baking tray.",
+      "Continue until the tray is full, then top with eggwash and kalonji seeds.",
+      "Bake for 20-25 mins until golden brown.",
+      "Remove from the oven and drizzle with condensed milk and honey while warm.",
+      "Serve and enjoy.",
+    ],
+  },
+  {
+    id: "egyptian-style-hawawshi",
+    title: "Egyptian Style Hawawshi",
+    category: "dinner",
+    time: "30 min",
+    description: "Crisp stuffed pitas filled with spiced beef, herbs, and peppers.",
+    ingredients: [
+      "1 small onion, peeled and cut into quarters",
+      "1 red bell pepper, seeded, stem removed, and cut into quarters",
+      "1 serrano pepper, stemmed and cut into chunks (remove seeds if you want to keep it less spicy)",
+      "Pinch of kosher salt",
+      "1/2 cup fresh parsley leaves",
+      "2 large garlic cloves",
+      "1 lb ground beef",
+      "1 tbsp tomato paste",
+      "1/2 tsp kosher salt",
+      "1/2 tsp ground black pepper",
+      "1/2 tsp paprika",
+      "1/4 tsp ground coriander",
+      "1/8 tsp ground allspice",
+      "1/8 tsp ground cardamom",
+      "4 thick pita breads",
+      "Olive oil for brushing and grilling",
+    ],
+    steps: [
+      "In a food processor, combine the onion quarters, bell pepper, and serrano pepper with a pinch of salt.",
+      "Blend until nearly smooth, like a salsa consistency.",
+      "Scoop the blended vegetables into a cheesecloth or clean kitchen towel and squeeze out as much moisture as you can.",
+      "Add the strained vegetables to a large mixing bowl and set aside.",
+      "In the same food processor, add the fresh parsley leaves and garlic, then pulse until you have a smooth paste.",
+      "Add the parsley and garlic paste to the bowl with the pepper and onion mixture, then add the ground beef.",
+      "Stir the beef with the herbs and vegetable mixture, then add the tomato paste, kosher salt, black pepper, paprika, coriander, allspice, and cardamom.",
+      "Mix thoroughly with your hands or a wooden spoon so the seasonings are evenly distributed throughout the meat.",
+      "Slice each pita in half, then carefully open the inner pocket.",
+      "Stuff about 1/2 cup of the meat mixture into each pocket and spread it evenly so the pita is filled edge to edge in an even layer.",
+      "Repeat with the remaining pita bread and meat, then brush the outsides with olive oil.",
+      "Heat a grill pan or gas grill over medium-high heat and place the stuffed pitas on the grill, oiled side down.",
+      "Brush the top side with more olive oil while the first side grills for 3 to 4 minutes.",
+      "Flip and grill for another 2 to 3 minutes, then stand the pitas upright on the open side to grill the exposed meat for about 1 more minute.",
+      "Let rest for 5 minutes before serving and enjoy.",
+    ],
+  },
+  {
+    id: "baked-chicken-tacos",
+    title: "Baked Chicken Tacos",
+    category: "dinner",
+    time: "25 min",
+    description: "Crispy baked tacos filled with creamy spiced chicken and melted cheese.",
+    ingredients: [
+      "1 lb boneless chicken breast, cut into small pieces",
+      "Salt to taste",
+      "1 tbsp smoked paprika powder",
+      "1 tsp garlic powder",
+      "1/2 tsp black pepper",
+      "1 tsp Cajun seasoning",
+      "1-2 cloves fresh garlic, minced",
+      "1 cup mixed bell pepper, diced",
+      "1/2 cup corn, boiled",
+      "1 yellow onion, diced",
+      "1 jalapeno, chopped and seeded (optional)",
+      "1 tbsp lemon juice",
+      "4 tbsp cream cheese",
+      "1/4 cup water",
+      "1 tbsp oil, plus more for cooking",
+      "1/2 cup mayonnaise",
+      "1/2 cup sour cream",
+      "1 tsp smoked paprika powder",
+      "1 tsp garlic powder",
+      "Salt and pepper to taste",
+      "1 tsp Cajun seasoning",
+      "1 tbsp lime juice",
+      "1 tsp hot sauce",
+      "1-2 tbsp fresh cilantro, chopped",
+      "1 cup mixed shredded cheese",
+      "10 mini flour tortillas",
+      "2 tbsp oil (for brushing the tortillas)",
+    ],
+    steps: [
+      "In a bowl, add the chicken pieces, salt, smoked paprika, garlic powder, black pepper, Cajun seasoning, and 1 tbsp oil.",
+      "Mix well until the chicken is evenly coated.",
+      "Heat a pan over medium heat with a little oil.",
+      "Once hot, add the seasoned chicken and cook for 3 to 4 minutes, stirring occasionally.",
+      "Add the minced garlic and cook for 1 to 2 minutes until fragrant.",
+      "Add the diced onion, bell peppers, corn, and jalapeno if using.",
+      "Cook for 3 to 4 minutes until the vegetables soften slightly and the chicken is cooked through.",
+      "Lower the heat and add the cream cheese, lemon juice, and water.",
+      "Stir until the cream cheese melts and forms a creamy sauce that coats the chicken and veggies.",
+      "If the mixture seems too thin, simmer for 1 to 2 minutes until thickened, then adjust salt if needed and remove from heat.",
+      "In a separate bowl, mix the mayonnaise, sour cream, smoked paprika, garlic powder, salt, pepper, Cajun seasoning, lime juice, hot sauce, and chopped cilantro to make the sauce.",
+      "Preheat the oven to 400F.",
+      "Lightly brush one side of each tortilla with oil.",
+      "Flip the tortillas over and spoon the chicken filling onto the un-oiled side.",
+      "Sprinkle with cheese, then fold or gently press the tortillas closed.",
+      "Arrange them on a baking sheet and bake for 10 to 15 minutes until the tortillas are crispy and the cheese is melted.",
+    ],
+  },
+  {
+    id: "classic-tiramisu",
+    title: "Classic Tiramisu",
+    category: "dessert",
+    time: "4 hr chill",
+    description: "A classic tiramisu with mascarpone, coffee-soaked ladyfingers, and cocoa on top.",
+    ingredients: [
+      "2 eggs, separated",
+      "80g sugar",
+      "250g mascarpone",
+      "1 tsp vanilla",
+      "Ladyfingers",
+      "Fresh coffee, cooled",
+      "Cocoa powder for dusting",
+    ],
+    steps: [
+      "Start by separating the 2 eggs into yolks and whites in separate bowls.",
+      "Add 40g sugar to the egg yolks.",
+      "Beat the egg yolks and sugar together until the mixture becomes pale in colour.",
+      "In a separate bowl, add the remaining 40g sugar to the egg whites.",
+      "Beat the egg whites and sugar together until the mixture doubles in volume and stays stiff when the bowl is turned upside down.",
+      "Add the mascarpone to the egg yolk mixture and mix it in until smooth.",
+      "Add the vanilla and mix again.",
+      "Add the whipped egg whites to the mascarpone mixture and gently fold them in until fully combined.",
+      "Quickly soak the ladyfingers in fresh coffee that has cooled down, then place them in your dish in an even layer.",
+      "Add a layer of the cream and spread it out evenly.",
+      "Add another layer of coffee-soaked ladyfingers.",
+      "Finish with another layer of cream and smooth the top.",
+      "Put the tiramisu in the fridge for a few hours, or leave it overnight.",
+      "Take it out, dust with cocoa powder, and serve.",
     ],
   },
 ];
 
 const recipeBook = document.getElementById("recipeBook");
-const bookReader = document.getElementById("bookReader");
-const expandBookButton = document.getElementById("expandBook");
 const prevPageButton = document.getElementById("prevPage");
 const nextPageButton = document.getElementById("nextPage");
 const pageIndicator = document.getElementById("pageIndicator");
@@ -145,17 +215,8 @@ let recipes = [];
 let activeFilter = "all";
 let currentPage = 0;
 let lastDirection = "next";
-let isExpanded = false;
 let expandedRecipe = null;
 let editingRecipeId = null;
-
-function syncExpandButton() {
-  expandBookButton.textContent = isExpanded ? "⤡" : "⤢";
-  expandBookButton.setAttribute(
-    "aria-label",
-    isExpanded ? "Collapse book view" : "Expand book view"
-  );
-}
 
 function getConfig() {
   return window.COOKBOOK_CONFIG ?? {};
@@ -344,10 +405,18 @@ function updateFilterLabels() {
 }
 
 function renderRecipeCard(recipe) {
-  const ingredientItems = recipe.ingredients
+  const previewIngredients = recipe.ingredients.slice(0, 4);
+  const previewSteps = recipe.steps.slice(0, 3);
+  const ingredientItems = previewIngredients
     .map((ingredient) => `<li>${ingredient}</li>`)
     .join("");
-  const stepItems = recipe.steps.map((step) => `<li>${step}</li>`).join("");
+  const stepItems = previewSteps.map((step) => `<li>${step}</li>`).join("");
+  const hasMoreIngredients = recipe.ingredients.length > previewIngredients.length;
+  const hasMoreSteps = recipe.steps.length > previewSteps.length;
+  const previewHint =
+    hasMoreIngredients || hasMoreSteps
+      ? `<p class="recipe-preview-note">Press expand to see the full recipe.</p>`
+      : "";
 
   return `
     <article class="recipe-page">
@@ -395,12 +464,15 @@ function renderRecipeCard(recipe) {
         <details class="recipe-section" open>
           <summary class="recipe-section__summary">Ingredients</summary>
           <ul class="ingredient-list">${ingredientItems}</ul>
+          ${hasMoreIngredients ? '<p class="recipe-preview-more">More ingredients in expanded view.</p>' : ""}
         </details>
         <details class="recipe-section" open>
           <summary class="recipe-section__summary">Steps</summary>
           <ol class="step-list">${stepItems}</ol>
+          ${hasMoreSteps ? '<p class="recipe-preview-more">More steps in expanded view.</p>' : ""}
         </details>
       </div>
+      ${previewHint}
     </article>
   `;
 }
@@ -487,7 +559,7 @@ function closeExpandedRecipe() {
   expandedRecipe = null;
   pageOverlay.hidden = true;
   overlayPage.innerHTML = "";
-  if (!isExpanded && formOverlay.hidden) {
+  if (formOverlay.hidden) {
     document.body.classList.remove("reader-expanded");
   }
 }
@@ -507,7 +579,7 @@ function closeRecipeForm() {
   recipeFormTitle.textContent = "Add Recipe";
   recipeFormSubmit.textContent = "Save Recipe";
   addRecipeForm.reset();
-  if (!isExpanded && !expandedRecipe) {
+  if (!expandedRecipe) {
     document.body.classList.remove("reader-expanded");
   }
 }
@@ -637,13 +709,6 @@ recipeBook.addEventListener("click", (event) => {
   openExpandedRecipe(expandTrigger.dataset.expandRecipe);
 });
 
-expandBookButton.addEventListener("click", () => {
-  isExpanded = !isExpanded;
-  bookReader.classList.toggle("is-expanded", isExpanded);
-  document.body.classList.toggle("reader-expanded", isExpanded);
-  syncExpandButton();
-});
-
 closeOverlayButton.addEventListener("click", closeExpandedRecipe);
 
 pageOverlay.addEventListener("click", (event) => {
@@ -734,14 +799,6 @@ document.addEventListener("keydown", (event) => {
     return;
   }
 
-  if (event.key === "Escape" && isExpanded) {
-    isExpanded = false;
-    bookReader.classList.remove("is-expanded");
-    if (!expandedRecipe && formOverlay.hidden) {
-      document.body.classList.remove("reader-expanded");
-    }
-    syncExpandButton();
-  }
 });
 
 document.addEventListener("click", (event) => {
@@ -751,7 +808,6 @@ document.addEventListener("click", (event) => {
 });
 
 async function initializeApp() {
-  syncExpandButton();
   await loadRecipes();
   updateFilterLabels();
   renderRecipes();
